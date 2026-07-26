@@ -46,14 +46,22 @@ Individual presets can also be extended directly, e.g.
 
 ### `helmPostUpgradeTasks.json5` is opt-in
 
-It is deliberately **not** in `default.json`. It runs `helm-docs` and
-`helm-schema` as post-upgrade tasks, which only makes sense in a repo that
-actually ships charts under `charts/` or `deploy/helm/`. Inheriting it
-everywhere broke the repos that do not: those binaries are absent from
-`ghcr.io/renovatebot/renovate` and the commands are not on `allowedCommands`, so
-every PR failed the `renovate/artifacts` check — and because `default.json` also
-sets `:automergeBranch`, a red check blocks automerge. CI itself passed, which
-made it easy to miss.
+It is deliberately **not** in `default.json`, because it depends on the
+execution environment rather than on the repo alone. It runs `helm-docs` and
+`helm-schema` as post-upgrade tasks, so it needs a Renovate runtime that both
+installs those binaries and allowlists the commands.
+
+The org-wide workflow in `craquehouse/.github` did exactly that — a
+`docker-cmd-file` entrypoint fetching both tools plus
+`RENOVATE_ALLOWED_COMMANDS: '["^helm-docs ", "^helm-schema "]'` — and the preset
+worked there. The self-hosted `renovate-operator` path replicates neither, so
+once repos moved to it every PR failed the `renovate/artifacts` check. Because
+`default.json` also sets `:automergeBranch`, that red check silently blocked
+automerge while CI itself stayed green, which made it easy to miss.
+
+Inheriting an environment-dependent preset by default meant every consumer paid
+that cost; none currently benefits, since no craquehouse repo ships charts under
+`charts/` or `deploy/helm/`.
 
 A chart repo should extend it alongside the default:
 
@@ -66,6 +74,8 @@ A chart repo should extend it alongside the default:
 }
 ```
 
-That repo also needs `helm-docs` and `helm-schema` available to the Renovate
-runtime and listed in `allowedCommands` (a self-hosted setting, not something a
-repo preset can grant).
+That repo's Renovate runtime must also provide `helm-docs` and `helm-schema` and
+allowlist both commands — see `.github/renovate-entrypoint.sh` and
+`RENOVATE_ALLOWED_COMMANDS` in `craquehouse/.github` for a working reference.
+`allowedCommands` is a self-hosted administrator setting; a repo preset cannot
+grant it.
