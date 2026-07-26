@@ -7,7 +7,6 @@
     "local>craquehouse/renovate-config:annotated.json5",
     "local>craquehouse/renovate-config:autoMerge.json5",
     "local>craquehouse/renovate-config:groups.json5",
-    "local>craquehouse/renovate-config:helmPostUpgradeTasks.json5",
     "local>craquehouse/renovate-config:labels.json5",
     "local>craquehouse/renovate-config:semanticCommits.json5",
     ":automergeBranch",
