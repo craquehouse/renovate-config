@@ -2,14 +2,15 @@
 [tools]
 actionlint = "1.7.12"
 lefthook = "2.1.10"
-node = "26.5.0"
+node = "26.5.1"
 oxfmt = "0.61.0"
 # @yarnpkg/libzip 3.2.2 was published manually rather than via the yarnbot CI
 # pipeline, so it has no provenance attestation while 3.2.0/3.2.1 do. mise's
 # no-downgrade trust policy reads that as a regression and blocks the entire
 # renovate dependency tree. @yarnpkg/core pins ^3.2.2, so no renovate version
 # resolves around it. Remove once upstream ships an attested release. See #11.
-"npm:renovate" = { version = "43.288.0", trust_policy_excludes = [
+
+"npm:renovate" = { version = "44.3.3", trust_policy_excludes = [
   "@yarnpkg/libzip",
 ] }
 shellcheck = "0.11.0"
