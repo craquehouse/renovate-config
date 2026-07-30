@@ -2,7 +2,7 @@
 [tools]
 actionlint = "1.7.12"
 lefthook = "2.1.10"
-node = "26.5.0"
+node = "26.5.1"
 oxfmt = "0.61.0"
 # @yarnpkg/libzip 3.2.2 was published manually rather than via the yarnbot CI
 # pipeline, so it has no provenance attestation while 3.2.0/3.2.1 do. mise's
