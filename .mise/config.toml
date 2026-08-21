@@ -1,7 +1,7 @@
 # https://mise.jdx.dev/configuration.html
 [tools]
 actionlint = "1.7.12"
-lefthook = "2.1.10"
+lefthook = "2.1.11"
 node = "26.7.0"
 oxfmt = "0.63.0"
 # @yarnpkg/libzip 3.2.2 was published manually rather than via the yarnbot CI
