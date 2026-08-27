@@ -26,5 +26,26 @@
       minimumReleaseAge: "1 minute",
       ignoreTests: true,
     },
+    {
+      description: "Auto-merge lefthook, oxfmt, and mise dev tooling",
+      matchManagers: ["mise"],
+      matchDepNames: ["lefthook", "mise", "oxfmt"],
+      automerge: true,
+      automergeType: "branch",
+      matchUpdateTypes: ["minor", "patch"],
+      minimumReleaseAge: "3 days",
+    },
+    {
+      // Overrides the generic GitHub Actions rule above, which sets
+      // ignoreTests. These tools are what CI runs, so let CI gate them.
+      description: "Auto-merge mise-action, gated on CI",
+      matchManagers: ["github-actions"],
+      matchPackageNames: ["jdx/mise-action"],
+      automerge: true,
+      automergeType: "branch",
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      minimumReleaseAge: "3 days",
+      ignoreTests: false,
+    },
   ],
 }
