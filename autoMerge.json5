@@ -1,5 +1,12 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  // Renovate discards its own successful `renovate/*` statuses (stability-days,
+  // merge-confidence) when computing branch status, so a branch whose only green
+  // status is internal reads as pending and never branch-automerges — it sits
+  // until prNotPendingHours elapses and a PR is opened for a human. Count them
+  // as success. Real CI still gates: GitHub Actions report as check runs, which
+  // are evaluated independently of this setting.
+  internalChecksAsSuccess: true,
   packageRules: [
     {
       description: "Auto-merge GitHub Actions",
