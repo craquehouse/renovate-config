@@ -54,8 +54,10 @@ installs those binaries and allowlists the commands.
 The org-wide workflow in `craquehouse/.github` did exactly that — a
 `docker-cmd-file` entrypoint fetching both tools plus
 `RENOVATE_ALLOWED_COMMANDS: '["^helm-docs ", "^helm-schema "]'` — and the preset
-worked there. The self-hosted `renovate-operator` path replicates neither, so
-once repos moved to it every PR failed the `renovate/artifacts` check. Because
+worked there. That workflow is retired; Renovate now runs in-cluster under
+`renovate-operator`, one `RenovateJob` per forge. The executor image ships
+neither binary, and the GitHub job sets no `RENOVATE_ALLOWED_COMMANDS`, so once
+repos moved to it every PR failed the `renovate/artifacts` check. Because
 `default.json` also sets `:automergeBranch`, that red check silently blocked
 automerge while CI itself stayed green, which made it easy to miss.
 
@@ -74,8 +76,9 @@ A chart repo should extend it alongside the default:
 }
 ```
 
-That repo's Renovate runtime must also provide `helm-docs` and `helm-schema` and
-allowlist both commands — see `.github/renovate-entrypoint.sh` and
-`RENOVATE_ALLOWED_COMMANDS` in `craquehouse/.github` for a working reference.
+That repo's `RenovateJob` must also make `helm-docs` and `helm-schema` available
+in the executor and allowlist both commands in `RENOVATE_ALLOWED_COMMANDS`. The
+operator does support allowlisting: the Forgejo job already permits anchored
+`mise` commands, with the tool installed through `installTools: { mise: {} }`.
 `allowedCommands` is a self-hosted administrator setting; a repo preset cannot
 grant it.
