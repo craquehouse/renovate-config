@@ -9,6 +9,15 @@
   internalChecksAsSuccess: true,
   packageRules: [
     {
+      // Renovate can see a tag minutes before its release assets are uploaded,
+      // and `mise lock` run in that window records provenance with no download
+      // URL, which breaks `mise install --locked`. A day is ample for assets to
+      // land. Kept first so the longer holds on specific tools below win.
+      description: "Hold mise tool updates until release assets have settled",
+      matchManagers: ["mise"],
+      minimumReleaseAge: "1 day",
+    },
+    {
       description: "Auto-merge GitHub Actions",
       matchManagers: ["github-actions"],
       automerge: true,
