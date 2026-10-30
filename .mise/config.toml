@@ -1,6 +1,15 @@
 # https://mise.jdx.dev/configuration.html
+
+# rhysd/actionlint has not released since 1.7.12 (March 2026) and rejects newer
+# runner labels such as ubuntu-26.04. kjanat/actionlint is a maintained,
+# CLI-compatible fork. Aliasing keeps the tool name `actionlint`, so the
+# home-operations workflow-lint action's `mise exec actionlint@<version>` runs
+# the fork unchanged. Renovate ignores this alias; see .renovaterc.json5.
+[tool_alias]
+actionlint = "github:kjanat/actionlint"
+
 [tools]
-actionlint = "1.7.12"
+actionlint = "1.17.0"
 lefthook = "2.2.2"
 node = "26.12.1"
 oxfmt = "0.75.0"
