@@ -1,4 +1,15 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: ["local>craquehouse/renovate-config"],
+  packageRules: [
+    {
+      // .mise/config.toml aliases actionlint to the kjanat/actionlint fork, but
+      // Renovate's mise manager ignores [tool_alias] and hard-wires actionlint
+      // to rhysd/actionlint. Point lookups at the fork so it keeps updating.
+      description: "Track the kjanat/actionlint fork",
+      matchManagers: ["mise"],
+      matchDepNames: ["actionlint"],
+      overridePackageName: "kjanat/actionlint",
+    },
+  ],
 }
